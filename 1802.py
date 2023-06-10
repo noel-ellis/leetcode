@@ -1,19 +1,21 @@
 class Solution:
-    def make_pyramid(n: int, m: int):
-        for i in range(0, n):
-            pass
+    def left_side(n: int, m: int, index: int):
+        pass
+
+    def right_side(n: int, m: int, index: int):
+        pass
 
     def maxValue(self, n: int, index: int, maxSum: int) -> int:
         m = 1
-        pyramid = self.make_pyramid(n, m)
-        pyramid = self.cut_pyramid(pyramid, index)
+        pyramid = self.left_side(n, m, index).append(
+            m).append(self.right_side(n, m, index))
         sum = self.sum_pyramid(pyramid)
         m += 1
 
         while sum <= maxSum:
             old_pyramid = pyramid[:]
-            pyramid = self.make_pyramid(n, m)
-            pyramid = self.cut_pyramid(pyramid, index)
+            pyramid = self.left_side(n, m, index).append(
+                m).append(self.right_side(n, m, index))
             sum = self.sum_pyramid(pyramid)
             m += 1
 
