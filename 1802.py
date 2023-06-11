@@ -8,11 +8,12 @@ class Solution:
 
         m = 0
         sum_of_array = 0
-        while sum_of_array < maxSum:
+        while sum_of_array <= maxSum:
             m += 1
             sum_of_array = 0
 
             sum_of_pyramid = 2*self.sum_of_series(m) - m
+            # WRONG FORMULA; see 10;5;10 case
             delta_m_left = abs(index - m) - 1
             delta_m_right = m - n + index
 
@@ -26,20 +27,21 @@ class Solution:
                 sum_of_right_cutoff = self.sum_of_series(delta_m_right)
                 sum_of_array -= sum_of_right_cutoff
             else:
-                sum_of_array = sum_of_array + abs(delta_m_right)
+                sum_of_array += abs(delta_m_right)
 
         return m-1
 
 
 def tests():
-    return {'n': 4, 'index': 2, 'maxSum': 6}, {'n': 6, 'index': 1, 'maxSum': 10}, {'n': 10, 'index': 5, 'maxSum': 10},
+    # {'n': 6, 'index': 1, 'maxSum': 10}, {'n': 4, 'index': 2, 'maxSum': 6},
+    return {'n': 10, 'index': 5, 'maxSum': 10},
 
 
 def main():
     solution = Solution()
-    """for num, test in enumerate(tests()):
+    for num, test in enumerate(tests()):
         print(
-            f'==============\nresult {num}: {solution.maxValue(**test)}\n')"""
+            f'==============\nresult {num}: {solution.maxValue(**test)}\n')
 
 
 main()
