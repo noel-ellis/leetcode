@@ -1,27 +1,33 @@
 class Solution:
-    def left_side(self, m: int, index: int):
-        array = []
-        for _ in range(index-1, -1, -1):
-            if m > 1:
-                m -= 1
-            array.append(m)
-        return array[::-1]
+    # trying different approach: find the sum of the pyramid and then subtract cutoffs or add 1s as needed, to the left and to the right of the pyramid.
 
-    def right_side(self, n: int, m: int, index: int):
-        array = []
-        for _ in range(index+1, n):
-            if m > 1:
-                m -= 1
-            array.append(m)
-        return array
+    def sum_of_series(self, m: int):
+        return (m * (m + 1)) // 2
 
     def maxValue(self, n: int, index: int, maxSum: int) -> int:
-        array = [0]
+
         m = 0
-        while sum(array) <= maxSum:
+        sum_of_array = 0
+        while sum_of_array < maxSum:
             m += 1
-            array = self.left_side(m, index) + \
-                [m] + self.right_side(n, m, index)
+            sum_of_array = 0
+
+            sum_of_pyramid = 2*self.sum_of_series(m) - m
+            delta_m_left = abs(index - m) - 1
+            delta_m_right = m - n + index
+
+            if delta_m_left > 0:
+                sum_of_left_cutoff = self.sum_of_series(delta_m_left)
+                sum_of_array = sum_of_pyramid - sum_of_left_cutoff
+            else:
+                sum_of_array = sum_of_pyramid + abs(delta_m_left)
+
+            if delta_m_right > 0:
+                sum_of_right_cutoff = self.sum_of_series(delta_m_right)
+                sum_of_array -= sum_of_right_cutoff
+            else:
+                sum_of_array = sum_of_array + abs(delta_m_right)
+
         return m-1
 
 
@@ -31,9 +37,9 @@ def tests():
 
 def main():
     solution = Solution()
-    for num, test in enumerate(tests()):
+    """for num, test in enumerate(tests()):
         print(
-            f'==============\nresult {num}: {solution.maxValue(**test)}\n')
+            f'==============\nresult {num}: {solution.maxValue(**test)}\n')"""
 
 
 main()
