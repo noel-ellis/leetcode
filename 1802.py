@@ -5,7 +5,6 @@ class Solution:
         return (m * (m + 1)) // 2
 
     def maxValue(self, n: int, index: int, maxSum: int) -> int:
-
         m = 0
         sum_of_array = 0
         while sum_of_array <= maxSum:
@@ -13,8 +12,7 @@ class Solution:
             sum_of_array = 0
 
             sum_of_pyramid = 2*self.sum_of_series(m) - m
-            # WRONG FORMULA; see 10;5;10 case
-            delta_m_left = abs(index - m) - 1
+            delta_m_left = m - index - 1
             delta_m_right = m - n + index
 
             if delta_m_left > 0:
@@ -33,8 +31,7 @@ class Solution:
 
 
 def tests():
-    # {'n': 6, 'index': 1, 'maxSum': 10}, {'n': 4, 'index': 2, 'maxSum': 6},
-    return {'n': 10, 'index': 5, 'maxSum': 10},
+    return {'n': 10, 'index': 5, 'maxSum': 10}, {'n': 6, 'index': 1, 'maxSum': 10}, {'n': 4, 'index': 2, 'maxSum': 6},
 
 
 def main():
