@@ -1,36 +1,39 @@
 class Solution:
-    def left_side(n: int, m: int, index: int):
-        pass
+    def left_side(self, m: int, index: int):
+        array = []
+        for _ in range(index-1, -1, -1):
+            if m > 1:
+                m -= 1
+            array.append(m)
+        return array[::-1]
 
-    def right_side(n: int, m: int, index: int):
-        pass
+    def right_side(self, n: int, m: int, index: int):
+        array = []
+        for _ in range(index+1, n):
+            if m > 1:
+                m -= 1
+            array.append(m)
+        return array
 
     def maxValue(self, n: int, index: int, maxSum: int) -> int:
-        m = 1
-        pyramid = self.left_side(n, m, index).append(
-            m).append(self.right_side(n, m, index))
-        sum = self.sum_pyramid(pyramid)
-        m += 1
-
-        while sum <= maxSum:
-            old_pyramid = pyramid[:]
-            pyramid = self.left_side(n, m, index).append(
-                m).append(self.right_side(n, m, index))
-            sum = self.sum_pyramid(pyramid)
+        array = [0]
+        m = 0
+        while sum(array) <= maxSum:
             m += 1
-
-        return old_pyramid[index]
+            array = self.left_side(m, index) + \
+                [m] + self.right_side(n, m, index)
+        return m-1
 
 
 def tests():
-    return {'n': 4, 'index': 2, 'maxSum': 6}, {'n': 6, 'index': 1, 'maxSum': 10},
+    return {'n': 4, 'index': 2, 'maxSum': 6}, {'n': 6, 'index': 1, 'maxSum': 10}, {'n': 10, 'index': 5, 'maxSum': 10},
 
 
 def main():
     solution = Solution()
     for num, test in enumerate(tests()):
         print(
-            f'==============\nresult {num}: {solution.nextGreatestLetter(**test)}\n')
+            f'==============\nresult {num}: {solution.maxValue(**test)}\n')
 
 
 main()
