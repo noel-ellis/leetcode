@@ -1,18 +1,22 @@
 class Solution:
     def maxProfit(self, prices: list[int]) -> int:
-        # task: to find maximums for every slice of array
         if len(prices) == 1:
             return 0
 
-        pnl_stats = []
-        for i in range(0, len(prices)-1):
-            trade_period = prices[i:]
-            pnl_stats.append(max(trade_period) - trade_period[0])
-        max_profit = max(pnl_stats)
+        max_gain = 0
+        min_price = prices[0]
+        max_price = prices[0]
+        for i in range(0, len(prices)):
+            if prices[i] < min_price:
+                min_price = prices[i]
+                max_price = 0
 
-        if max_profit < 0:
-            return 0
-        return max_profit
+            if prices[i] > max_price:
+                max_price = prices[i]
+                if max_price - min_price > max_gain:
+                    max_gain = max_price - min_price
+
+        return max_gain
 
 
 def tests():
