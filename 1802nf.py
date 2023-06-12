@@ -1,5 +1,5 @@
 class Solution:
-    # trying different approach: find the sum of the pyramid and then subtract cutoffs or add 1s as needed, to the left and to the right of the pyramid.
+    # try new approach: ditch while loop, choose a right starting point
 
     def sum_of_series(self, m: int):
         return (m * (m + 1)) // 2
@@ -31,7 +31,7 @@ class Solution:
 
 
 def tests():
-    return {'n': 10, 'index': 5, 'maxSum': 10}, {'n': 6, 'index': 1, 'maxSum': 10}, {'n': 4, 'index': 2, 'maxSum': 6},
+    return {'n': 10, 'index': 5, 'maxSum': 10}, {'n': 6, 'index': 1, 'maxSum': 10}, {'n': 4, 'index': 2, 'maxSum': 6}, {'n': 3, 'index': 0, 'maxSum': 815094800},
 
 
 def main():
