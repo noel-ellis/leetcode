@@ -1,4 +1,5 @@
 class Solution:
+    # time complexity: O(nlogn)
     def topKFrequent(self, nums: list[int], k: int) -> list[int]:
         hashmap = {}
         for element in nums:
