@@ -2,54 +2,33 @@ import copy
 
 
 class Solution:
-    def divide_in_sectors(self, grid: list[list[int]]) -> list[list[int]]:
-        sectors = [[], [], [], [], [], [], [], [], []]
-        for i, row in enumerate(grid):
-            x = i // 3
-            for j, element in enumerate(row):
-                y = j // 3
-                z = 2 * x + (x + y)
-                sectors[z].append(element)
-
-        return sectors
-
-    def transpose_grid(self, grid: list[list[int]]) -> list[list[int]]:
-        n = len(grid[0])
-        transposed_grid = copy.deepcopy(grid)
-        for i in range(0, n):
-
-            if i == n-1:
-                break
-
-            for j in range(i+1, n):
-                transposed_grid[j][i] = grid[i][j]
-                transposed_grid[i][j] = grid[j][i]
-
-        return transposed_grid
-
-    def check_rows(self, board: list[list[str]]) -> bool:
-        for row in board:
-            numbers_in_row = []
-            for element in row:
-                if element == '.':
-                    continue
-                if element in numbers_in_row:
-                    return False
-                numbers_in_row.append(element)
-
-        return True
-
     def isValidSudoku(self, board: list[list[str]]) -> bool:
-        if not self.check_rows(board):
-            return False
+        n = 9
+        sectors = [[], [], [], [], [], [], [], [], []]
+        for i in range(0, n):
+            sector_row = i // 3
+            numbers_in_row = []
+            numbers_in_column = []
+            for j in range(0, n):
+                # checking elements in a column
+                if board[j][i] != '.':
+                    if board[j][i] in numbers_in_column:
+                        return False
+                    numbers_in_column.append(board[j][i])
 
-        transposed_board = self.transpose_grid(board)
-        if not self.check_rows(transposed_board):
-            return False
+                if board[i][j] == '.':
+                    continue
+                # checking elements in a row
+                if board[i][j] in numbers_in_row:
+                    return False
+                numbers_in_row.append(board[i][j])
 
-        sectors = self.divide_in_sectors(board)
-        if not self.check_rows(sectors):
-            return False
+                # checking elements in a sector
+                sector_column = j // 3
+                sector_number = 2*sector_row + (sector_row+sector_column)
+                if board[i][j] in sectors[sector_number]:
+                    return False
+                sectors[sector_number].append(board[i][j])
 
         return True
 
@@ -61,9 +40,11 @@ def tests():
 
 def main():
     solution = Solution()
+    include_tests = [0, 1, 2]
     for num, test in enumerate(tests()):
-        print(
-            f'==============\ntest {num}: {test}\nresult {num}: {solution.isValidSudoku(**test)}\n')
+        if num in include_tests:
+            print(
+                f'==============\ntest {num}: {test}\nresult {num}: {solution.isValidSudoku(**test)}\n')
 
 
 main()
