@@ -1,6 +1,3 @@
-import copy
-
-
 class Solution:
     def isValidSudoku(self, board: list[list[str]]) -> bool:
         n = 9
